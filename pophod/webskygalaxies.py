@@ -97,9 +97,9 @@ class WebSkyGalaxyCatalog(object):
 
         # Use boolean indexing with flatnonzero and random.choice to select samples
         selected = np.concatenate([np.random.choice(z_sel, size = nz, replace = len(z_sel) < nz) for nz, z_sel in zip(outnz, (np.flatnonzero(indices == i) for i in range(len(outbins) - 1))) if len(z_sel) > 0])
-        #count effective number of galaxies
-        total = sum([len(z_sel) for z_sel in (np.flatnonzero(indices == i) for i in range(len(outbins) - 1)) if len(z_sel) > 0])
-        print("Total galaxies selected: ", total)
+        #counts effective number of galaxies??? i think i need a factor, but not sure how np.random.choice can output it
+        #total = sum([nz if len(z_sel) >= nz else len(z_sel) for nz, z_sel in zip(outnz, (np.flatnonzero(indices == i) for i in range(len(outbins) - 1))) if len(z_sel) > 0])
+        #print("Total galaxies selected: ", total)
 
         new_zs = input_redshifts[selected]
         new_position = input_positions[selected]

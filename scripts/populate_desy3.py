@@ -8,8 +8,6 @@ from pophod.utils import websky, utils
 import numpy as np
 import pathlib
 
-from actxdes.pipeline.data import des_map_extractor as dme
-
 import healpy as hp
 
 import argparse
@@ -85,7 +83,9 @@ directory = pathlib.Path(direc)
 
 Web = websky.WebSky(directory_path = direc, websky_version = "")
 
-"""for i in range(6):
+"""
+from actxdes.pipeline.data import des_map_extractor as dme
+for i in range(6):
     filename = "/Volumes/Omar T7 Shield/ACTXDES-DATA/mag_lim_lens_sample_combined_jointmask_sample_nbins1d_10_weighted2.0sig_pca_maps_107_50_cut.fits"
     catdes = dme.read_catalog(filename)
     zdes = catdes["DNF_ZMC_SOF"]
