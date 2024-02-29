@@ -15,19 +15,20 @@ import argparse
 parser = argparse.ArgumentParser(description="DES Y3 mocks from Websky halo catalog")
 parser.add_argument("-m", "--masked", action = 'store_true', help = "Use to mask.")
 parser.add_argument("-b", "--boost", action = 'store_true', help = "Use to boost number of objects.")
-
+parser.add_argument("-s", "--seed", type = int, help = "Seed for the random number generator.", default = 0)
+parser.add_argument("-n", "--nside", type = int, help = "Nside for the healpix maps.", default = 1024)
 
 args = parser.parse_args()
 masked = args.masked
 boost = args.boost
+seed = args.seed
+nside = args.nside
 
 data_directory = pathlib.Path("../data/")
 maps_data = data_directory / "maps"
 maps_data.mkdir(exist_ok = True)
 
-seed = 0
 
-nside = 2048
 
 #### DES Y3 info
 
@@ -42,9 +43,15 @@ Ngals = [2236462, 1599487, 1627408, 2175171, 1583679, 1494243]
 nzs_dir = pathlib.Path('../data/DESY3/dndz/')
 nzs_file = lambda zbin: f'galaxy_z_nz_{zbin[0]}-{zbin[1]}.txt'
 
-gmask = np.load("/Volumes/Omar T7 Shield/ACTXDES-DATA/gmask.npy")
-gmask_ud = hp.ud_grade(gmask, nside_out = nside)
+try:
+    gmask_ud = np.load(f"../data/DESY3/gmask_ud_{nside}.npy")
+except:
+    gmask = np.load("/Volumes/Omar T7 Shield/ACTXDES-DATA/gmask.npy")
+    gmask_ud = hp.ud_grade(gmask, nside_out = nside)
+    np.save(f"../data/DESY3/gmask_ud_{nside}.npy", gmask_ud)
+
 area_gmask = gmask_ud.mean()*4*np.pi
+gmask_ud = gmask_ud.astype(int)
 
 ##### MODELS #####
 
