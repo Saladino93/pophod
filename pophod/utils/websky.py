@@ -21,22 +21,22 @@ class WebSky:
         prints information on halo catalogues and maps
     """
 
-    def __init__(self, 
-                 directory_path='/global/cscratch1/sd/omard/ACTXDES-PROJECT/sims/exploration/',
-                 websky_version = 'v0.3',
-                 halo_catalogue = 'halos.pksc',
-                 kappa_map_name = 'kap.fits',
-                 comptony_map_name = 'tsz.fits',
-                 ksz_map_name = 'ksz.fits',
-                 websky_cosmo = {'Omega_M': 0.31, 'Omega_B': 0.049, 'Omega_L': 0.69, 
-                                 'h': 0.68, 'sigma_8': 0.81, 'n_s':0.965},
-                 verbose = True
+    def __init__(self,  directory_path='/global/cscratch1/sd/omard/ACTXDES-PROJECT/sims/exploration/',
+                websky_version = 'v0.3',
+                halo_catalogue = 'halos.pksc',
+                kappa_map_name = 'kap.fits',
+                comptony_map_name = 'tsz.fits',
+                ksz_map_name = 'ksz.fits',
+                websky_cosmo = {'Omega_M': 0.31, 'Omega_B': 0.049, 'Omega_L': 0.69, 
+                                'h': 0.68, 'sigma_8': 0.81, 'n_s':0.965},
+                verbose = True
     ):
 
 
         self.directory_path = pathlib.Path(directory_path)
         self.websky_version = websky_version 
         self.halo_catalogue = halo_catalogue
+        websky_cosmo["Omega_C"] = websky_cosmo["Omega_M"] - websky_cosmo["Omega_B"]
         self.websky_cosmo   = websky_cosmo
         self.verbose        = verbose
         self.kappa_map_name = kappa_map_name
