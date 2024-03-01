@@ -57,7 +57,7 @@ class Zheng2007(object):
         '''
         See for example equation (2) of https://arxiv.org/pdf/2106.08438.pdf
         '''
-        result = mean_number_center*((Mh-kappa*Mmin)/M1)**alpha
+        result = mean_number_center*((Mh-kappa*Mmin)/M1)**alpha*(Mh>kappa*Mmin)
         return result
 
     def _tree_flatten(self):

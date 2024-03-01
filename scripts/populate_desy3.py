@@ -42,7 +42,7 @@ assert model in models, f"Model {model} not recognized. Choose among {models}"
 
 redshift_bins = [0.20, 0.40, 0.55, 0.70, 0.85, 0.95, 1.05]
 indices = range(len(redshift_bins)-1)
-indices = [1]
+indices = [0]
 
 def read_z_nz(zbin):
     return np.loadtxt(nzs_dir/nzs_file(zbin), unpack = True)  
@@ -50,6 +50,10 @@ Ngals = [2236462, 1599487, 1627408, 2175171, 1583679, 1494243]
 
 nzs_dir = pathlib.Path('../data/DESY3/dndz/')
 nzs_file = lambda zbin: f'galaxy_z_nz_{zbin[0]}-{zbin[1]}.txt'
+
+direc = '/Volumes/Omar T7 Shield/Websky Sims'
+directory = pathlib.Path(direc)
+
 
 try:
     gmask_ud = np.load(f"../data/DESY3/gmask_ud_{nside}.npy")
@@ -66,8 +70,13 @@ gmask_ud = gmask_ud.astype(int)
 
 if model == zmodel:
 
-    factorC = 1+0.03
-    factorS = 1+0.04
+    #these are simple factors tuned to give a little bit of a better match to gg MICE simulations.
+    factors = {}
+    factors[0] = (1.03, 1.05)
+    factors[1] = (1.02, 1.03)
+    factors[2] = (1.02, 1.03)
+    factors[3] = (1.02, 1.03)
+
     MaglimHodProps = {}
     MaglimHodProps[0] = {'log10Mmin': 11.75, 'log10M1': 13.36, 'alpha': 1.7, 'sigma_logM': 0.28, "fcen": 1.0}
     MaglimHodProps[1] = {'log10Mmin': 11.93, 'log10M1': 13.43, 'alpha': 1.83, 'sigma_logM': 0.26, "fcen": 1.0}
@@ -77,6 +86,7 @@ if model == zmodel:
 
     for M in MaglimHodProps:
         MaglimHodProps[M]['kappa'] = 0.
+        factorC, factorS = factors[M]
         MaglimHodProps[M]["log10Mmin"] *= factorC
         MaglimHodProps[M]["log10M1"] *= factorS
 
@@ -126,9 +136,6 @@ elif model == smodelplanck:
 #### Read Websky info
     
 zcouples = [(0., 0.7), (0., 0.8), (0., 1), (0.4, 1.2), (0.5, 1.6), (0.5, 1.6)]
-
-direc = '/Volumes/Omar T7 Shield/Websky Sims'
-directory = pathlib.Path(direc)
 
 Web = websky.WebSky(directory_path = direc, websky_version = "")
 

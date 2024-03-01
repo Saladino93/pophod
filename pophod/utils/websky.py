@@ -1,3 +1,9 @@
+"""
+Contains class to handle websky.
+
+Several parts from Websky SO Github.
+"""
+
 from __future__ import print_function
 import numpy as np
 import healpy as hp
