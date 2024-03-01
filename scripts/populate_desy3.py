@@ -42,7 +42,7 @@ assert model in models, f"Model {model} not recognized. Choose among {models}"
 
 redshift_bins = [0.20, 0.40, 0.55, 0.70, 0.85, 0.95, 1.05]
 indices = range(len(redshift_bins)-1)
-indices = [0]
+indices = range(4, 6)
 
 def read_z_nz(zbin):
     return np.loadtxt(nzs_dir/nzs_file(zbin), unpack = True)  
@@ -51,14 +51,16 @@ Ngals = [2236462, 1599487, 1627408, 2175171, 1583679, 1494243]
 nzs_dir = pathlib.Path('../data/DESY3/dndz/')
 nzs_file = lambda zbin: f'galaxy_z_nz_{zbin[0]}-{zbin[1]}.txt'
 
-direc = '/Volumes/Omar T7 Shield/Websky Sims'
+
+direc = '/home/users/d/darwish/scratch/WEBSKY'
 directory = pathlib.Path(direc)
 
 
+directory_mask = "/home/users/d/darwish/ACTdr6xDESy3/products/60/data/galaxy/2048/"
 try:
     gmask_ud = np.load(f"../data/DESY3/gmask_ud_{nside}.npy")
 except:
-    gmask = np.load("/Volumes/Omar T7 Shield/ACTXDES-DATA/gmask.npy")
+    gmask = np.load(directory_mask+"gmask_2048.npy")
     gmask_ud = hp.ud_grade(gmask, nside_out = nside)
     np.save(f"../data/DESY3/gmask_ud_{nside}.npy", gmask_ud)
 
@@ -82,7 +84,7 @@ if model == zmodel:
     MaglimHodProps[1] = {'log10Mmin': 11.93, 'log10M1': 13.43, 'alpha': 1.83, 'sigma_logM': 0.26, "fcen": 1.0}
     MaglimHodProps[2] = {'log10Mmin': 11.88, 'log10M1': 12.84, 'alpha': 1.24, 'sigma_logM': 0.21, "fcen": 1.0}
     MaglimHodProps[3] = {'log10Mmin': 11.82, 'log10M1': 13.44, 'alpha': 2.29, 'sigma_logM': 0.31, "fcen": 1.0}
-    a_values = [0.41, 0.63, 1.21, 1.19]
+    a_values = [0.41, 0.63, 1.21, 1.19, 1, 1]
 
     for M in MaglimHodProps:
         MaglimHodProps[M]['kappa'] = 0.
@@ -142,7 +144,7 @@ Web = websky.WebSky(directory_path = direc, websky_version = "")
 """
 from actxdes.pipeline.data import des_map_extractor as dme
 for i in range(6):
-    filename = "/Volumes/Omar T7 Shield/ACTXDES-DATA/mag_lim_lens_sample_combined_jointmask_sample_nbins1d_10_weighted2.0sig_pca_maps_107_50_cut.fits"
+    filename = "/home/users/d/darwish/scratch/ACTXDES-PROJECT/maglim/mag_lim_lens_sample_combined_jointmask_sample_nbins1d_10_weighted2.0sig_pca_maps_107_50_cut.fits"
     catdes = dme.read_catalog(filename)
     zdes = catdes["DNF_ZMC_SOF"]
     zbins = catdes["DNF_ZMEAN_SOF"]

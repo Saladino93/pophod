@@ -9,16 +9,15 @@ from pophod.utils import websky
 
 zcouples = [(0., 0.7), (0., 0.8), (0., 1), (0.4, 1.2), (0.5, 1.6), (0.5, 1.6)]
 
-direc = '/Volumes/Omar T7 Shield/Websky Sims'
+direc = '/home/users/d/darwish/scratch/WEBSKY'
 directory = pathlib.Path(direc)
 websky_halo_catalog_name = 'halos.pksc'
 
 
 W = websky.WebSky(directory_path = direc, websky_version = "")
 Nmax = None
-Nmax = 5e8
 
-for zmin, zmax in zcouples:
+for zmin, zmax in zcouples[5:]:
     try:
         matrix = np.load(f"matrix_websky_zmin_{zmin}_zmax{zmax}.npy")
     except:
